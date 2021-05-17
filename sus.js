@@ -4,7 +4,7 @@ const { PREFIX } = require('./config.json');
 const client = new Discord.Client()
 
 client.once('ready', () => {
-	console.log('Ready to run');
+	console.log('Ready to run now');
   client.user.setActivity('Among US', {
 			type: 'PLAYING'
 		});

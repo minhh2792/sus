@@ -71,9 +71,13 @@ client.on('message', message => {
 
 		message.channel.send(embed);
 
-		if (rate <= 50)
+		if (rate <= 25)
+			return message.channel.send(`${user} is not the imposter`);
+		else if (rate <= 50)
 			return message.channel.send(`${user} may be not the imposter`);
-		if (rate > 50)
+		else if (rate >= 90)
+			return message.channel.send(`${user} is the imposter`);
+		else if (rate > 50)
 			return message.channel.send(`${user} may be is the imposter`);
 	}
 

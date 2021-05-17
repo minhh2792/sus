@@ -1,5 +1,5 @@
 <p align="center">
-	<img alt="banner" src="https://img.shields.io/badge/red-sus-red?style=for-the-badge">
+<img alt="banner" src="https://img.shields.io/badge/red-sus-red?style=for-the-badge">
 	
 <img alt="lastcommit" src="https://img.shields.io/github/last-commit/minhh2792/sus?style=for-the-badge">
 <img alt="size" src="https://img.shields.io/github/languages/code-size/minhh2792/sus?style=for-the-badge">

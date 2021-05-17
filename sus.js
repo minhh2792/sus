@@ -4,8 +4,8 @@ const { PREFIX } = require('./config.json');
 const client = new Discord.Client()
 
 client.once('ready', () => {
-	console.log('Ready to run now');
-  client.user.setActivity('Among US', {
+	console.log('Ready to run');
+  client.user.setActivity('Among US | s!help', {
 			type: 'PLAYING'
 		});
 });
@@ -55,6 +55,7 @@ client.on('message', message => {
   if (command === 'sus') {
     let user = message.mentions.users.first()
     if (!user) return message.channel.send('Please mention someone, even yourself!')
+    if (user.id === client.user.id) return message.channel.send(`I'm not the imposter`)
     
     var rate = Math.floor(Math.random() * 100);
     
@@ -78,7 +79,7 @@ client.on('message', message => {
     let embed = new Discord.MessageEmbed() 
       .setColor('BLUE')
       .setAuthor('Commands', message.author.displayAvatarURL())
-      .setDescription('`sus`\nCheck if they are imposter\n`status`\nBot status\n`invite`\nInvite this bot to your server')
+      .setDescription('`sus`\nCheck if they are imposter\n`status`\nBot status\n`invite`\nInvite this bot to your server\n`help`\nThis message')
       .setFooter(`Use ${PREFIX}<command>`)
 
       message.channel.send(embed);

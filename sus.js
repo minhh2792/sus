@@ -31,14 +31,11 @@ client.on('message', message => {
 		hours %= 24;
 
 		let embed = new Discord.MessageEmbed()
-			.setColor('BLUE')
-			.setAuthor('Status', message.author.displayAvatarURL())
-			.addField(`🔰Prefix:`, `${PREFIX}`)
-			.addField(`🔰Ping:`, `${ping}ms`)
-			.addField(
-				`🕒Uptime`,
-				`${days} day(s) ${hours} hours ${minutes} minutes`
-			)
+			.setColor('RANDOM')
+			.setAuthor('Status')
+			.addField(`Prefix:`, `${PREFIX}`)
+			.addField(`Ping:`, `${ping}ms`)
+			.addField(`Uptime:`, `${days} day(s) ${hours} hours ${minutes} minutes`)
 			.setFooter(message.author.tag)
 			.setTimestamp();
 
@@ -61,25 +58,25 @@ client.on('message', message => {
     
     let embed = new Discord.MessageEmbed()
     .setColor('RED')
-    .setAuthor('There is one imposter among us', message.author.displayAvatarURL())
-    .setThumbnail('https://i.imgur.com/9jgfmK9.png')
+    .setAuthor('There is one imposter among us')
+    .setThumbnail(user.displayAvatarURL())
     .addField('Player', user)
     .addField('Sus Percent', rate + "% ")
     .setTimestamp();
 
     message.channel.send(embed);
 
-    if(rate < 50) return message.channel.send(`${user} may be not the imposter`)
-    if(rate > 60) return message.channel.send(`${user} is the IMPOSTER!`)   
+    if (rate <= 50) return message.channel.send(`${user} may be not the imposter`)
+    if (rate > 50) return message.channel.send(`${user} may be is the imposter`)
 
   }
   
   //Help
   if (command === 'help') {
     let embed = new Discord.MessageEmbed() 
-      .setColor('BLUE')
-      .setAuthor('Commands', message.author.displayAvatarURL())
-      .setDescription('`sus`\nCheck if they are imposter\n`status`\nBot status\n`invite`\nInvite this bot to your server\n`help`\nThis message')
+      .setColor('RANDOM')
+      .setAuthor('Commands')
+      .setDescription('`sus`\nCheck if they are imposter\n`status`\nBot status\n`invite`\nInvite this bot to your server\n`help`\nThis message\n`sourcecode`\nThe bot source code')
       .setFooter(`Use ${PREFIX}<command>`)
 
       message.channel.send(embed);
@@ -89,6 +86,11 @@ client.on('message', message => {
   //Invite
   if(command === 'invite') {
     message.channel.send('https://discord.com/api/oauth2/authorize?client_id=843701781884436530&permissions=0&scope=bot')
+  }
+
+  //Source code
+  if(command === 'sourcecode') {
+    message.channel.send('https://github.com/minhh2792/sus')
   }
 
 })

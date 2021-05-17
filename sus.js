@@ -72,16 +72,22 @@ client.on('message', message => {
     if(rate > 60) return message.channel.send(`${user} is the IMPOSTER!`)   
 
   }
-
+  
+  //Help
   if (command === 'help') {
     let embed = new Discord.MessageEmbed() 
       .setColor('BLUE')
       .setAuthor('Commands', message.author.displayAvatarURL())
-      .setDescription('`sus`\nCheck if they are imposter\n`status`\nBot status')
+      .setDescription('`sus`\nCheck if they are imposter\n`status`\nBot status\n`invite`\nInvite this bot to your server')
       .setFooter(`Use ${PREFIX}<command>`)
 
       message.channel.send(embed);
     
+  }
+  
+  //Invite
+  if(command === 'invite') {
+    message.channel.send('https://discord.com/api/oauth2/authorize?client_id=843701781884436530&permissions=0&scope=bot')
   }
 
 })

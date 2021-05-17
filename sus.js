@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { PREFIX } = require('./src/config/config.json');
+const { PREFIX } = require('./config.json');
 
 const client = new Discord.Client()
 

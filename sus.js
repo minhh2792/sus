@@ -1,24 +1,27 @@
 const Discord = require('discord.js');
 const { PREFIX } = require('./config.json');
 
-const client = new Discord.Client()
+const client = new Discord.Client();
 
 client.once('ready', () => {
 	console.log('Ready to run');
-  client.user.setActivity('Among US | s!help', {
-			type: 'PLAYING'
-		});
+	client.user.setActivity('Among US | s!help', {
+		type: 'PLAYING'
+	});
 });
 
 client.on('message', message => {
-  if (!message.content.startsWith(PREFIX) || message.author.bot) return;
+	if (!message.content.startsWith(PREFIX) || message.author.bot) return;
 
-	const args = message.content.slice(PREFIX.length).trim().split(/ +/);
+	const args = message.content
+		.slice(PREFIX.length)
+		.trim()
+		.split(/ +/);
 	const command = args.shift().toLowerCase();
-  
-  //Status
-  if (command === 'status') {
-    let ping = Math.round(message.client.ws.ping);
+
+	//Status
+	if (command === 'status') {
+		let ping = Math.round(message.client.ws.ping);
 
 		//Credit to EvoBot
 		let seconds = Math.floor(message.client.uptime / 1000);
@@ -48,52 +51,57 @@ client.on('message', message => {
 		message.delete({ timeout: '5000' });
 	}
 
-  //How sus
-  if (command === 'sus') {
-    let user = message.mentions.users.first()
-    if (!user) return message.channel.send('Please mention someone, even yourself!')
-    if (user.id === client.user.id) return message.channel.send(`I'm not the imposter`)
-    
-    var rate = Math.floor(Math.random() * 100);
-    
-    let embed = new Discord.MessageEmbed()
-    .setColor('RED')
-    .setAuthor('There is one imposter among us')
-    .setThumbnail(user.displayAvatarURL())
-    .addField('Player', user)
-    .addField('Sus Percent', rate + "% ")
-    .setTimestamp();
+	//How sus
+	if (command === 'sus') {
+		let user = message.mentions.users.first();
+		if (!user)
+			return message.channel.send('Please mention someone, even yourself!');
+		if (user.id === client.user.id)
+			return message.channel.send(`I'm not the imposter`);
 
-    message.channel.send(embed);
+		var rate = Math.floor(Math.random() * 100);
 
-    if (rate <= 50) return message.channel.send(`${user} may be not the imposter`)
-    if (rate > 50) return message.channel.send(`${user} may be is the imposter`)
+		let embed = new Discord.MessageEmbed()
+			.setColor('RED')
+			.setAuthor('There is one imposter among us')
+			.setThumbnail(user.displayAvatarURL())
+			.addField('Player', user)
+			.addField('Sus Percent', rate + '% ')
+			.setTimestamp();
 
-  }
-  
-  //Help
-  if (command === 'help') {
-    let embed = new Discord.MessageEmbed() 
-      .setColor('RANDOM')
-      .setAuthor('Commands')
-      .setDescription('`sus`\nCheck if they are imposter\n`status`\nBot status\n`invite`\nInvite this bot to your server\n`help`\nThis message\n`sourcecode`\nThe bot source code')
-      .setFooter(`Use ${PREFIX}<command>`)
+		message.channel.send(embed);
 
-      message.channel.send(embed);
-    
-  }
-  
-  //Invite
-  if(command === 'invite') {
-    message.channel.send('https://discord.com/api/oauth2/authorize?client_id=843701781884436530&permissions=0&scope=bot')
-  }
+		if (rate <= 50)
+			return message.channel.send(`${user} may be not the imposter`);
+		if (rate > 50)
+			return message.channel.send(`${user} may be is the imposter`);
+	}
 
-  //Source code
-  if(command === 'sourcecode') {
-    message.channel.send('https://github.com/minhh2792/sus')
-  }
+	//Help
+	if (command === 'help') {
+		let embed = new Discord.MessageEmbed()
+			.setColor('RANDOM')
+			.setAuthor('Commands')
+			.setDescription(
+				'`sus`\nCheck if they are imposter\n`status`\nBot status\n`invite`\nInvite this bot to your server\n`help`\nThis message\n`sourcecode`\nThe bot source code'
+			)
+			.setFooter(`Use ${PREFIX}<command>`);
 
-})
+		message.channel.send(embed);
+	}
+
+	//Invite
+	if (command === 'invite') {
+		message.channel.send(
+			'https://discord.com/api/oauth2/authorize?client_id=843701781884436530&permissions=0&scope=bot'
+		);
+	}
+
+	//Source code
+	if (command === 'sourcecode') {
+		message.channel.send('https://github.com/minhh2792/sus');
+	}
+});
 
 var token = process.env['TOKEN'];
 client.login(token);

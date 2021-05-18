@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { PREFIX, TIMEOUT } = require('./resources/config/config.json');
+const { PREFIX, TIMEOUT } = require('./config.json');
 const {
 	STATUS,
 	DAYS,

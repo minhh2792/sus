@@ -2,15 +2,29 @@
 ![size](https://img.shields.io/github/languages/code-size/minhh2792/sus)
 ![issue](https://img.shields.io/github/issues-pr/minhh2792/sus)
 
-## red sus
+## sus
 
-Invite this bot to your server: [here](https://discord.com/api/oauth2/authorize?client_id=843701781884436530&permissions=0&scope=bot)
+> Inspired by Among Us
 
-Default prefix: s!
+This bot will check if someone in your server is imposter
 
-Help command: s!help
+**Commands**
 
-> Made with Discord.JS, thanks Evo Bot for the status command
+`sus` Check if someone is the imposter
+
+`status` Bot status like prefix, uptime, ping
+
+`help` Help
+
+`invite` Invite bot to your server
+
+`sourcecode` The bot source code
+
+Language available: en_US, vi_VN
+
+You can host this bot using railway.app
+
+>This bot is made using Discord.js, thanks Evo Bot for the status command <3
 
 
 

@@ -91,7 +91,7 @@ client.on('message', message => {
 			.setAuthor(`${IMPOSTER_AMONG_US}`, client.user.displayAvatarURL())
 			.setThumbnail(user.displayAvatarURL())
 			.addField(`${PLAYER}`, user)
-			.addField(`${SUS_PERCENT}`, rate + '% ')
+			.addField(`${SUS_PERCENT}`, rate + "% ")
 			.setTimestamp();
 
 		message.channel.send(embed);

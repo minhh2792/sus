@@ -1,27 +1,33 @@
 //Import the library
 const Discord = require('discord.js');
+const prefix = require('discord-prefix');
 
-//Import the config
-const { PREFIX, TIMEOUT } = require('./config.json');
+//Config
+let TIMEOUT = '5000';
+let defaultPrefix = '/';
 
 //Setup new client
 const client = new Discord.Client();
 
-//Reasy event
+//Ready event
 client.once('ready', () => {
 	console.log('Ready to run');
 	console.log(`Server: ${client.guilds.cache.size}`);
-	client.user.setActivity(`Among US | ${PREFIX}help`, {
+	client.user.setActivity(`Among US`, {
 		type: 'PLAYING'
 	});
 });
 
 //Message event
 client.on('message', message => {
-	if (!message.content.startsWith(PREFIX) || message.author.bot) return;
+	let guildPrefix = prefix.getPrefix(message.guild.id);
+
+	if (!guildPrefix) guildPrefix = defaultPrefix;
+
+	if (!message.content.startsWith(guildPrefix) || message.author.bot) return;
 
 	const args = message.content
-		.slice(PREFIX.length)
+		.slice(guildPrefix.length)
 		.trim()
 		.split(/ +/);
 	const command = args.shift().toLowerCase();
@@ -43,7 +49,7 @@ client.on('message', message => {
 		let status = new Discord.MessageEmbed()
 			.setColor('RANDOM')
 			.setTitle('Status')
-			.addField('Prefix:', `${PREFIX}`)
+			.addField('Prefix:', `${guildPrefix}`)
 			.addField('Server', `${client.guilds.cache.size}`)
 			.addField(`Ping:`, `${ping}ms`)
 			.addField(`Uptime:`, `${days}d ${hours}h ${minutes}m`)
@@ -62,20 +68,8 @@ client.on('message', message => {
 	if (command === 'sus') {
 		//Get the mentioned user
 		let user = message.mentions.users.first();
-		if (!user) {
-			let PleaseMentionSomeone = new Discord.MessageEmbed()
-				.setColor('RED')
-				.setDescription('Please mention someone');
-
-			return message.channel.send(PleaseMentionSomeone);
-		}
-		if (user.id === client.user.id) {
-			let imNotImposter = new Discord.MessageEmbed()
-				.setColor('RED')
-				.setDescription('I am not imposter 😳');
-
-			return message.channel.send(imNotImposter);
-		}
+		if (!user) return message.reply('please mention someone');
+		if (user.id === client.user.id) return message.reply('I\'m not imposter')
 
 		const rate = Math.floor(Math.random() * 100);
 
@@ -108,10 +102,11 @@ client.on('message', message => {
 			.setAuthor('Commands')
 			.addField('`sus`', 'Check if someone is sus')
 			.addField('`status`', 'Bot status')
+			.addField('`prefix`', 'Set the bot prefix')
 			.addField('`invite`', 'Invite bot to your server')
 			.addField('`help`', 'This message')
 			.addField('`sourcecode`', 'Source code')
-			.setFooter(`Use ${PREFIX}<command>`);
+			.setFooter(`Use ${guildPrefix}<command>`);
 
 		message.channel.send(help);
 	}
@@ -136,6 +131,17 @@ client.on('message', message => {
 			);
 
 		message.channel.send(src);
+	}
+
+	//Set prefix
+	if (command === 'prefix') {
+		let p = args.slice().join(' ');
+
+		if (!p) return message.reply('please tell me the prefix you want to set');
+
+		prefix.setPrefix(p, message.guild.id);
+
+		message.reply('done!');
 	}
 });
 

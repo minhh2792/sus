@@ -1,40 +1,22 @@
+//Import the library
 const Discord = require('discord.js');
-const { PREFIX, TIMEOUT } = require('./config.json');
-const {
-	STATUS,
-	DAYS,
-	HOURS,
-	MINUTES,
-	MENTION_SOMEONE,
-	IAM_NOT_IMPOSTER,
-	IMPOSTER_AMONG_US,
-	PLAYER,
-	SUS_PERCENT,
-	NOT_THE_IMPOSTER,
-	MAYBE_NOT_THE_IMPOSTER,
-  MAYBE_IS_THE_IMPOSTER,
-  IMPOSTER,
-	COMMANDS,
-	HELP_SUS,
-	HELP_STATUS,
-	HELP_INVITE,
-	HELP_HELP,
-	HELP_SOURCE_CODE,
-  USE,
-  COMMAND,
-  INVITE,
-  SOURCE_CODE
-} = require('./resources/lang/en_US.json');
 
+//Import the config
+const { PREFIX, TIMEOUT } = require('./config.json');
+
+//Setup new client
 const client = new Discord.Client();
 
+//Reasy event
 client.once('ready', () => {
 	console.log('Ready to run');
+	console.log(`Server: ${client.guilds.cache.size}`);
 	client.user.setActivity(`Among US | ${PREFIX}help`, {
 		type: 'PLAYING'
 	});
 });
 
+//Message event
 client.on('message', message => {
 	if (!message.content.startsWith(PREFIX) || message.author.bot) return;
 
@@ -58,17 +40,17 @@ client.on('message', message => {
 		minutes %= 60;
 		hours %= 24;
 
-		let embed = new Discord.MessageEmbed()
+		let status = new Discord.MessageEmbed()
 			.setColor('RANDOM')
-			.setAuthor(STATUS)
-			.addField(`Prefix:`, `${PREFIX}`)
+			.setTitle('Status')
+			.addField('Prefix:', `${PREFIX}`)
+			.addField('Server', `${client.guilds.cache.size}`)
 			.addField(`Ping:`, `${ping}ms`)
-			.addField(`Uptime:`, `${days}${DAYS} ${hours}${HOURS} ${minutes}${MINUTES}`)
-			.setFooter(message.author.tag)
+			.addField(`Uptime:`, `${days}d ${hours}h ${minutes}m`)
 			.setTimestamp();
 
 		message.channel
-			.send(embed)
+			.send(status)
 			.then(msg => {
 				msg.delete({ timeout: `${TIMEOUT}` });
 			})
@@ -78,69 +60,84 @@ client.on('message', message => {
 
 	//How sus
 	if (command === 'sus') {
+		//Get the mentioned user
 		let user = message.mentions.users.first();
-		if (!user)
-			return message.channel.send(`${MENTION_SOMEONE}`);
-		if (user.id === client.user.id)
-			return message.channel.send(`${IAM_NOT_IMPOSTER}`);
+		if (!user) {
+			let PleaseMentionSomeone = new Discord.MessageEmbed()
+				.setColor('RED')
+				.setDescription('Please mention someone');
 
-		var rate = Math.floor(Math.random() * 100);
+			return message.channel.send(PleaseMentionSomeone);
+		}
+		if (user.id === client.user.id) {
+			let imNotImposter = new Discord.MessageEmbed()
+				.setColor('RED')
+				.setDescription('I am not imposter 😳');
 
-		let embed = new Discord.MessageEmbed()
+			return message.channel.send(imNotImposter);
+		}
+
+		const rate = Math.floor(Math.random() * 100);
+
+		let sus = new Discord.MessageEmbed()
 			.setColor('RED')
-			.setAuthor(`${IMPOSTER_AMONG_US}`, client.user.displayAvatarURL())
+			.setAuthor(
+				'There is one imposter among us',
+				client.user.displayAvatarURL()
+			)
 			.setThumbnail(user.displayAvatarURL())
-			.addField(`${PLAYER}`, user)
-			.addField(`${SUS_PERCENT}`, rate + "% ")
+			.addField('Player', user)
+			.addField('Sus Percent', rate + '% ')
 			.setTimestamp();
 
-		message.channel.send(embed);
+		message.channel.send(sus);
 
-		if (rate <= 25) return message.channel.send(`${user} ${NOT_THE_IMPOSTER}`);
+		if (rate <= 25) return message.channel.send(`${user} is not the imposter`);
 		else if (rate <= 50)
-			return message.channel.send(`${user} ${MAYBE_NOT_THE_IMPOSTER}`);
-		else if (rate >= 90) return message.channel.send(`${user} ${IMPOSTER}`);
+			return message.channel.send(`${user} maybe not the imposter`);
+		else if (rate >= 90)
+			return message.channel.send(`${user} is the IMPOSTER 😳`);
 		else if (rate > 50)
-			return message.channel.send(`${user} ${MAYBE_IS_THE_IMPOSTER}`);
+			return message.channel.send(`${user} maybe is the imposter 🤔`);
 	}
 
 	//Help
 	if (command === 'help') {
-		let embed = new Discord.MessageEmbed()
+		let help = new Discord.MessageEmbed()
 			.setColor('YELLOW')
-			.setAuthor(`${COMMANDS}`)
-			.addField('`sus`', `${HELP_SUS}`)
-      .addField('`status`', `${HELP_STATUS}`)
-      .addField('`invite`', `${HELP_INVITE}`)
-      .addField('`help`', `${HELP_HELP}`)
-      .addField('`sourcecode`', `${HELP_SOURCE_CODE}`)
-			.setFooter(`${USE} ${PREFIX}<${COMMAND}>`);
+			.setAuthor('Commands')
+			.addField('`sus`', 'Check if someone is sus')
+			.addField('`status`', 'Bot status')
+			.addField('`invite`', 'Invite bot to your server')
+			.addField('`help`', 'This message')
+			.addField('`sourcecode`', 'Source code')
+			.setFooter(`Use ${PREFIX}<command>`);
 
-		message.channel.send(embed);
+		message.channel.send(help);
 	}
 
 	//Invite
 	if (command === 'invite') {
-		let embed = new Discord.MessageEmbed()
+		let invite = new Discord.MessageEmbed()
 			.setColor('BLUE')
 			.setDescription(
-				`${INVITE}\n[Click here](https://discord.com/api/oauth2/authorize?client_id=843701781884436530&permissions=0&scope=bot)`
+				'Invite bot to your server\n[Click here](https://discord.com/api/oauth2/authorize?client_id=843701781884436530&permissions=124992&scope=bot)'
 			);
 
-		message.channel.send(embed);
+		message.channel.send(invite);
 	}
 
 	//Source code
 	if (command === 'sourcecode') {
-		let embed = new Discord.MessageEmbed()
+		let src = new Discord.MessageEmbed()
 			.setColor('BLUE')
 			.setDescription(
-				`${SOURCE_CODE}\n[Github](https://github.com/minhh2792/sus)`
+				'This bot is open source\n[Github](https://github.com/minhh2792/sus)'
 			);
 
-		message.channel.send(embed);
+		message.channel.send(src);
 	}
 });
 
-var token = process.env['TOKEN'];
+let token = process.env['TOKEN'];
 client.login(token);

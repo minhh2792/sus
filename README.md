@@ -20,8 +20,6 @@ This bot will check if someone in your server is imposter
 
 `sourcecode` The bot source code
 
-Language available: en_US, vi_VN
-
 You can host this bot using railway.app
 
 >This bot is made using Discord.js, thanks Evo Bot for the status command <3

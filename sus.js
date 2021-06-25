@@ -4,7 +4,7 @@ const prefix = require('discord-prefix');
 
 //Config
 let TIMEOUT = '5000';
-let defaultPrefix = '/';
+let defaultPrefix = 's!';
 
 //Setup new client
 const client = new Discord.Client();
@@ -136,7 +136,6 @@ client.on('message', message => {
 	//Set prefix
 	if (command === 'prefix') {
 		let p = args.slice().join(' ');
-
 		if (!p) return message.reply('please tell me the prefix you want to set');
 
 		prefix.setPrefix(p, message.guild.id);

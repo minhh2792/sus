@@ -130,7 +130,7 @@ client.on('message', message => {
 				'This bot is open source\n[Github](https://github.com/minhh2792/sus)'
 			);
 
-		message.channel.send(src);
+		message.channel.send(src)
 	}
 
 	//Set prefix

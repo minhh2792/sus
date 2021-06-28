@@ -55,13 +55,8 @@ client.on('message', message => {
 			.addField(`Uptime:`, `${days}d ${hours}h ${minutes}m`)
 			.setTimestamp();
 
-		message.channel
-			.send(status)
-			.then(msg => {
-				msg.delete({ timeout: `${TIMEOUT}` });
-			})
-			.catch(console.error);
-		message.delete({ timeout: `${TIMEOUT}` });
+		message.channel.send(status)
+			
 	}
 
 	//How sus
